@@ -32,7 +32,7 @@ export default createGlobalStyle`
         justify-content: center;
         align-items: center;
 
-        margin: 0;
+        margin: 60px 0px 0px 0px;
 
         background-color: #000000;
         width: 100vw;
@@ -65,5 +65,4 @@ export default createGlobalStyle`
 
         margin: 25px 0px 10px 0px;
     }
-`
-
+`;
