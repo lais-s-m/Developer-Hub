@@ -25,7 +25,7 @@ export const Dashboard = () => {
       <Header>
         <hr />
         <div>
-          <h2>Olá, {userState?.name}</h2>
+          <h2>Olá, {userState?.name} 💕</h2>
           <p>{userState?.course_module}</p>
         </div>
         <hr />

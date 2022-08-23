@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { appearFromLeft } from '../../styles/GlobalStyles';
 
 export const Container = styled.div`
   display: flex;
@@ -12,6 +13,8 @@ export const Container = styled.div`
   width: 90vw;
 
   background-color: var(--grey-3);
+
+  animation: ${appearFromLeft} 1s;
 
   margin-bottom: 25px;
 

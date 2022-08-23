@@ -3,7 +3,6 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { toast } from 'react-toastify';
-
 import { useContext, useEffect } from 'react';
 
 import { Button } from '../../components/Button';
@@ -68,7 +67,7 @@ export const Login = () => {
     localStorage.setItem('@KenzieHub:user', JSON.stringify(user));
 
     if (token && userState) {
-      toast.success(`Bem Vind@, ${userState.name}! ❤️`);
+      toast.success(`Bem Vind@, ${userState.name}!💖`);
       setAuthenticated(true);
     }
   }

@@ -1,4 +1,16 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, keyframes } from 'styled-components';
+
+export const appearFromLeft = keyframes`
+    from {
+        opacity: 0;
+        transform: translateX(-50px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0px)
+    }
+`;
 
 export default createGlobalStyle`
     *{
@@ -62,6 +74,8 @@ export default createGlobalStyle`
 
         color: var(--pink);
         font-size: 2rem;
+
+        animation: ${appearFromLeft} 1s;
 
         margin: 25px 0px 10px 0px;
     }

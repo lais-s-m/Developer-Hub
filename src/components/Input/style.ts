@@ -133,7 +133,7 @@ export const InputContainer = styled.div<InputProps>`
   span {
     font-weight: 400;
     font-size: 11px;
-    line-height: 0px;
+    line-height: 12px;
     color: var(--pink);
     margin: 5px 0px 10px 0px;
   }

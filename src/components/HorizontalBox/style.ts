@@ -1,13 +1,15 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { appearFromLeft } from '../../styles/GlobalStyles';
 
 export const HorizontalBox = styled.div`
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    justify-content: space-between;
+  justify-content: space-between;
 
-    align-items: center;
+  align-items: center;
 
-    margin: 20px 10px 25px 10px;
+  animation: ${appearFromLeft} 1s;
 
-`
+  margin: 20px 10px 25px 10px;
+`;
