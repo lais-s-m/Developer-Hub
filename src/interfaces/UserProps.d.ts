@@ -25,10 +25,8 @@ export interface UserProps {
     contact: string;
     created_at: string;
     updated_at: string;
-    techs: TechsProps[] | null[];
-    works: WorksProps[] | null[];
+    techs: TechsProps[];
+    works: WorksProps[];
     avatar_url: string | null;
   };
 }
-
-const user: UserProps[] = [{ user: {} }];

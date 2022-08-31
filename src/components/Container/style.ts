@@ -26,6 +26,13 @@ export const Container = styled.div`
 
     margin: 8px 0px 10px 0px;
   }
+
+  h3 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
   form {
     width: 100%;
   }

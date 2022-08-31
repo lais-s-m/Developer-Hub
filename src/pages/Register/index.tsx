@@ -26,6 +26,11 @@ interface ISignInResponse {
   avatar_url: string | null;
 }
 
+interface IErrorResponse {
+  message: string;
+  status: string;
+}
+
 export const Register = () => {
   const { handleNavigation, setAuthenticated } = useContext(RoutesContext);
 
@@ -79,8 +84,9 @@ export const Register = () => {
         return handleNavigation('/');
       })
       .catch((err) => {
+        const response: IErrorResponse = err.data;
         console.log(err);
-        toast.error('Ops! Algo deu errado :( Tente outro email!');
+        toast.error(response.message);
       });
   };
   useEffect(() => {
@@ -88,6 +94,19 @@ export const Register = () => {
       setIsEnabled(true);
     }
   }, [isValid]);
+
+  const options = [
+    {
+      value: 'Primeiro módulo (Introdução ao Frontend)',
+      text: 'Primeiro Módulo',
+    },
+    { value: 'Segundo módulo (Frontend Avançado)', text: 'Segundo Módulo' },
+    {
+      value: 'Terceiro módulo (Introdução ao Backend)',
+      text: 'Terceiro Módulo',
+    },
+    { value: 'Quarto módulo (Backend Avançado)', text: 'Quarto Módulo' },
+  ];
 
   return (
     <>
@@ -150,6 +169,7 @@ export const Register = () => {
             setValue={setValue}
             label='Selecionar módulo'
             select
+            optionsList={options}
             register={register}
             error={errors.course_module?.message}
           />

@@ -12,4 +12,11 @@ export const HorizontalBox = styled.div`
   animation: ${appearFromLeft} 1s;
 
   margin: 20px 10px 25px 10px;
+
+  h2 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--grey-0);
+  }
 `;

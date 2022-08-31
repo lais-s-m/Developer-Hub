@@ -31,6 +31,17 @@ export const StyledButton = styled.button<ButtonProps>`
 
           width: 30%;
         `;
+      case 'sm+':
+        return css`
+          display: flex;
+          align-items: center;
+
+          font-weight: 700;
+          font-size: 17px;
+
+          width: 32px;
+          height: 32px;
+        `;
       default:
         return css`
           font-weight: 500;

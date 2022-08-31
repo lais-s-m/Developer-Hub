@@ -14,6 +14,11 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 import { InputContainer } from './style';
 
+interface Ioption {
+  value: string;
+  text: string;
+}
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
@@ -22,6 +27,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   borderColor?: string;
   password?: boolean;
   select?: boolean;
+  optionsList?: Ioption[];
   setValue?: UseFormSetValue<FieldValues>;
   error?:
     | string
@@ -39,6 +45,7 @@ export const Input: React.FC<InputProps> = ({
   register,
   password = false,
   select = false,
+  optionsList,
   setValue,
   ...rest
 }) => {
@@ -80,18 +87,9 @@ export const Input: React.FC<InputProps> = ({
             <option value='' selected disabled hidden>
               Selecione uma opção
             </option>
-            <option value='Primeiro módulo (Introdução ao Frontend)'>
-              Primeiro Módulo
-            </option>
-            <option value='Segundo módulo (Frontend Avançado)'>
-              Segundo Módulo
-            </option>
-            <option value='Terceiro módulo (Introdução ao Backend)'>
-              Terceiro Módulo
-            </option>
-            <option value='Quarto módulo (Backend Avançado)'>
-              Quarto Módulo
-            </option>
+            {optionsList?.map((option) => (
+              <option value={option.value}>{option.text}</option>
+            ))}
           </select>
         </div>
       );

@@ -51,3 +51,20 @@ export const Header = styled.header`
     margin-left: 20px;
   }
 `;
+
+export const Main = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 15px;
+
+  > section {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    width: 100%;
+  }
+`;

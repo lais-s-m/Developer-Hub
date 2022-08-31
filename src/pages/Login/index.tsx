@@ -24,8 +24,8 @@ interface ILoginResponse {
     contact: string;
     created_at: string;
     updated_at: string;
-    techs: TechsProps[] | null[];
-    works: WorksProps[] | null[];
+    techs: TechsProps[];
+    works: WorksProps[];
     avatar_url: string | null;
   };
   token: string;
@@ -64,7 +64,6 @@ export const Login = () => {
     setUserState(user);
 
     localStorage.setItem('@KenzieHub:token', JSON.stringify(token));
-    localStorage.setItem('@KenzieHub:user', JSON.stringify(user));
 
     if (token && userState) {
       toast.success(`Bem Vind@, ${userState.name}!💖`);
