@@ -2,7 +2,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useContext, useEffect } from 'react';
 
 import { Button } from '../../components/Button';
@@ -51,25 +51,24 @@ export const Login = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  async function APIresponse(loginData: FieldValues): Promise<ILoginResponse> {
-    const { data } = await api.post<ILoginResponse>('/sessions', loginData);
-
-    return data;
-  }
-
-  async function onSubmitFunction(loginData: FieldValues) {
-    const data = await APIresponse(loginData);
-    const { token, user } = data;
-
-    setUserState(user);
-
-    localStorage.setItem('@KenzieHub:token', JSON.stringify(token));
-
-    if (token && userState) {
-      toast.success(`Bem Vind@, ${userState.name}!💖`);
-      setAuthenticated(true);
-    }
-  }
+  const onSubmitFunction = (loginData: FieldValues) => {
+    const postAPI = async () => {
+      const response = api
+        .post<ILoginResponse>('/sessions', loginData)
+        .then((res) => {
+          const { token, user } = res.data;
+          setUserState(user);
+          localStorage.setItem('@KenzieHub:token', JSON.stringify(token));
+          setAuthenticated(true);
+        });
+      return response;
+    };
+    toast.promise(postAPI(), {
+      loading: 'Loading',
+      success: `Bem vind@!`,
+      error: `Infelizmente, não conseguimos te logar. Verifique se email e senha estão corretos`,
+    });
+  };
 
   if (authenticated) {
     handleNavigation('/dashboard');

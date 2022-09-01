@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { useContext, useEffect, useState } from 'react';
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 import { FieldValues, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -76,19 +76,19 @@ export const Register = () => {
     const { name, email, password, bio, contact, course_module } = signInData;
     const user = { name, email, password, bio, contact, course_module };
 
-    api
-      .post<ISignInResponse>('/users', user)
-      .then((_) => {
-        toast.success('Conta criada com sucesso!');
-        setAuthenticated(true);
-        return handleNavigation('/');
-      })
-      .catch((err) => {
-        const response: IErrorResponse = err.data;
-        console.log(err);
-        toast.error(response.message);
-      });
+    const postAPI = async () => {
+      const response = api.post<ISignInResponse>('/users', user);
+      return response;
+    };
+
+    toast.promise(postAPI(), {
+      loading: 'Loading',
+      success: `Conta criada com sucesso, ${user.name}!`,
+      error: `Infelizmente, não conseguimos criar sua conta, ${user.name}. Utilize outro email`,
+    });
+    handleNavigation('/');
   };
+
   useEffect(() => {
     if (isValid) {
       setIsEnabled(true);

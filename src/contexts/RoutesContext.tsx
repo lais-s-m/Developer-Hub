@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { ContextsProps } from '../interfaces/ContextsProps';
 import { UserContext } from './UserContext';
 
@@ -28,13 +28,6 @@ export const RoutesContextProvider = ({ children }: ContextsProps) => {
   const [authenticated, setAuthenticated] = useState(false);
 
   const redirect = () => authenticated && <Redirect to='/dashboard' />;
-
-  /*  useEffect(()=> {
-        const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
-        if (token){
-            return setAuthenticated(true);
-        }
-    },[authenticated]); */
 
   const history = useHistory();
   const handleNavigation = (path: string) => history.push(path);
