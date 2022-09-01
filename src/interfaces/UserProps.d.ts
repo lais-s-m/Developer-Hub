@@ -30,3 +30,12 @@ export interface UserProps {
     avatar_url: string | null;
   };
 }
+
+export interface ITech {
+  title?: string;
+  status?: string;
+}
+
+export interface IEditTechSubmit {
+  status?: string;
+}

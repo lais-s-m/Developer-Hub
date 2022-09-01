@@ -16,8 +16,15 @@ export const Dashboard = () => {
   const { handleNavigation, setAuthenticated, logout } =
     useContext(RoutesContext);
 
-  const { userState, isNewTech, setIsNewTech, isVisible, setIsVisible } =
-    useContext(UserContext);
+  const {
+    userState,
+    isNewTech,
+    setIsNewTech,
+    isVisible,
+    setIsVisible,
+    update,
+    techList,
+  } = useContext(UserContext);
 
   const showModalNewTech = () => {
     setIsNewTech(true);
@@ -30,6 +37,10 @@ export const Dashboard = () => {
     }
     return <ModalEditTech isVisible={isVisible} setIsVisible={setIsVisible} />;
   };
+
+  useEffect(() => {
+    update();
+  }, []);
 
   return (
     <>

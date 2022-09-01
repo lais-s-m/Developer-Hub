@@ -6,17 +6,15 @@ import { FieldValues, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import api from '../../../services/api';
-
 import { Modal } from '..';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { UserContext } from '../../../contexts/UserContext';
-import { HorizontalBox } from '../../HorizontalBox/style';
+import { ButtonsContainer } from '../styles';
 
 interface ITechModal {
-  isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isVisible: boolean;
 }
 
 interface ITech {
@@ -27,7 +25,8 @@ interface ITech {
 export const ModalEditTech = ({ isVisible, setIsVisible }: ITechModal) => {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
 
-  const { userToken, update, techTitle } = useContext(UserContext);
+  const { editTechSubmit, deleteTechSubmit, techTitle, techID } =
+    useContext(UserContext);
 
   const schema = yup.object().shape({
     status: yup.string().required('Status obrigatório'),
@@ -39,22 +38,6 @@ export const ModalEditTech = ({ isVisible, setIsVisible }: ITechModal) => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange', resolver: yupResolver(schema) });
-
-  const registerSubmit = (data: ITech) => {
-    const postApi = async () => {
-      const response = api.post('/users/techs', data, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-      update();
-      return response;
-    };
-
-    toast.promise(postApi(), {
-      loading: 'Loading',
-      success: `${data.title} registrado com sucesso!`,
-      error: `${data.title} não pôde ser registrado pois já existe outra tecnlogia com o mesmo nome`,
-    });
-  };
 
   const options = [
     { value: 'Iniciante', text: 'Iniciante' },
@@ -74,7 +57,7 @@ export const ModalEditTech = ({ isVisible, setIsVisible }: ITechModal) => {
 
       <p>{techTitle}</p>
 
-      <form>
+      <form onSubmit={handleSubmit(editTechSubmit)}>
         <Input
           name='status'
           label='Alterar status'
@@ -82,19 +65,26 @@ export const ModalEditTech = ({ isVisible, setIsVisible }: ITechModal) => {
           select
           optionsList={options}
           setValue={setValue}
+          error={errors.status?.message}
         />
-        <HorizontalBox>
+        <ButtonsContainer>
           {isEnabled ? (
-            <Button type='submit' bgColor='pink'>
+            <Button type='submit' size='sm' bgColor='pink'>
               Salvar alterações
             </Button>
           ) : (
-            <Button type='submit' bgColor='pink-negative'>
+            <Button type='submit' size='sm' bgColor='pink-negative'>
               Salvar alterações
             </Button>
           )}
-          <Button bgColor='grey'>Excluir</Button>
-        </HorizontalBox>
+          <Button
+            size='sm'
+            bgColor='grey'
+            onClick={(event) => deleteTechSubmit(techID, techTitle, event)}
+          >
+            Excluir
+          </Button>
+        </ButtonsContainer>
       </form>
     </Modal>
   );

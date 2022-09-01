@@ -11,15 +11,20 @@ interface ICard {
 }
 
 export const Card = ({ techTitle, techStatus, techId }: ICard) => {
-  const { deleteTechSubmit } = useContext(UserContext);
-
-  const { setIsNewTech, setIsVisible, setTechTitle } = useContext(UserContext);
+  const {
+    setIsNewTech,
+    setIsVisible,
+    setTechTitle,
+    setTechID,
+    deleteTechSubmit,
+  } = useContext(UserContext);
 
   const showModalEditTech = (event: BaseSyntheticEvent) => {
     event.stopPropagation();
     setIsNewTech(false);
     setIsVisible(true);
     setTechTitle(techTitle);
+    setTechID(techId);
   };
 
   return (

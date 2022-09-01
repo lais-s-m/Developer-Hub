@@ -18,15 +18,10 @@ interface ITechModal {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface ITech {
-  title?: string;
-  status?: string;
-}
-
 export const ModalNewTech = ({ isVisible, setIsVisible }: ITechModal) => {
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
 
-  const { userToken, update } = useContext(UserContext);
+  const { registerTechSubmit } = useContext(UserContext);
 
   const schema = yup.object().shape({
     title: yup
@@ -43,22 +38,6 @@ export const ModalNewTech = ({ isVisible, setIsVisible }: ITechModal) => {
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange', resolver: yupResolver(schema) });
 
-  const registerSubmit = (data: ITech) => {
-    const postApi = async () => {
-      const response = api.post('/users/techs', data, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-      update();
-      return response;
-    };
-
-    toast.promise(postApi(), {
-      loading: 'Loading',
-      success: `${data.title} registrado com sucesso!`,
-      error: `${data.title} não pôde ser registrado pois já existe outra tecnlogia com o mesmo nome`,
-    });
-  };
-
   const options = [
     { value: 'Iniciante', text: 'Iniciante' },
     { value: 'Intermediário', text: 'Intermediário' },
@@ -73,7 +52,7 @@ export const ModalNewTech = ({ isVisible, setIsVisible }: ITechModal) => {
 
   return (
     <Modal modalTitle='Cadastrar Tecnologia' setIsVisible={setIsVisible}>
-      <form onSubmit={handleSubmit(registerSubmit)}>
+      <form onSubmit={handleSubmit(registerTechSubmit)}>
         <Input
           name='title'
           label='Nome'

@@ -2,7 +2,12 @@ import { BaseSyntheticEvent, createContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useHistory } from 'react-router-dom';
 import { ContextsProps } from '../interfaces/ContextsProps';
-import { TechsProps, WorksProps } from '../interfaces/UserProps';
+import {
+  IEditTechSubmit,
+  ITech,
+  TechsProps,
+  WorksProps,
+} from '../interfaces/UserProps';
 import api from '../services/api';
 
 interface IUser {
@@ -37,6 +42,12 @@ interface IUserContext {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   techTitle: string;
   setTechTitle: React.Dispatch<React.SetStateAction<string>>;
+  techID: string;
+  setTechID: React.Dispatch<React.SetStateAction<string>>;
+  registerTechSubmit: (data: ITech) => void;
+  techObj: TechsProps | undefined;
+  setTechObj: React.Dispatch<React.SetStateAction<TechsProps | undefined>>;
+  editTechSubmit: (data: IEditTechSubmit) => void;
 }
 
 export const UserContext = createContext<IUserContext>({} as IUserContext);
@@ -52,7 +63,11 @@ export const UserProvider = ({ children }: ContextsProps) => {
 
   const [isNewTech, setIsNewTech] = useState(false);
 
+  const [techObj, setTechObj] = useState<TechsProps>();
+
   const [techTitle, setTechTitle] = useState('');
+
+  const [techID, setTechID] = useState('');
 
   const history = useHistory();
 
@@ -84,6 +99,23 @@ export const UserProvider = ({ children }: ContextsProps) => {
       .then((res) => setTechList(res.data.techs));
   };
 
+  const registerTechSubmit = (data: ITech) => {
+    const postApi = async () => {
+      const response = api
+        .post('/users/techs', data, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((res) => setTechList([...techList, res.data]));
+      return response;
+    };
+
+    toast.promise(postApi(), {
+      loading: 'Loading',
+      success: `${data.title} registrado com sucesso!`,
+      error: `${data.title} não pôde ser registrado pois já existe outra tecnologia com o mesmo nome`,
+    });
+  };
+
   const deleteTechSubmit = (
     techId: string,
     techName: string,
@@ -106,6 +138,23 @@ export const UserProvider = ({ children }: ContextsProps) => {
     });
   };
 
+  const editTechSubmit = (data: IEditTechSubmit) => {
+    const putApi = async () => {
+      const response = api
+        .put(`/users/techs/${techID}`, data, {
+          headers: { Authorization: `Bearer ${userToken}` },
+        })
+        .then((_) => update());
+      return response;
+    };
+
+    toast.promise(putApi(), {
+      loading: 'Loading',
+      success: `${techTitle} alterado com sucesso!`,
+      error: `${techTitle} não pôde ser alterado`,
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -122,6 +171,12 @@ export const UserProvider = ({ children }: ContextsProps) => {
         setIsVisible,
         techTitle,
         setTechTitle,
+        registerTechSubmit,
+        techID,
+        setTechID,
+        techObj,
+        setTechObj,
+        editTechSubmit,
       }}
     >
       {children}

@@ -8,13 +8,22 @@ import { Card } from '../Card';
 import { Container } from './styles';
 
 export const CardsList = () => {
-  const { techList } = useContext(UserContext);
+  const { techList, update } = useContext(UserContext);
+  const [updatedTechList, setUpdatedTechList] = useState<TechsProps[]>();
+
+  useEffect(() => {
+    setUpdatedTechList(techList);
+  }, [techList]);
+
+  useEffect(() => {
+    update();
+  }, []);
 
   return (
     <Container>
       <ul>
-        {techList.length !== 0 ? (
-          techList.map((tech) => {
+        {updatedTechList && updatedTechList.length !== 0 ? (
+          updatedTechList.map((tech) => {
             if (tech) {
               return (
                 <li key={uuid()}>
